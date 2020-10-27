@@ -167,6 +167,7 @@ class TikTokApi:
             maxCount,
             offset,
         ) = self.__process_kwargs__(kwargs)
+        did = kwargs.get('custom_did', None)
 
         response = []
         first = True
@@ -196,6 +197,7 @@ class TikTokApi:
                 api_url,
                 language=language,
                 proxy=proxy,
+                custom_did=did,
                 executablePath=self.executablePath,
             )
             res = self.getData(b, proxy=proxy)
@@ -1226,7 +1228,8 @@ class TikTokApi:
             maxCount,
             offset,
         ) = self.__process_kwargs__(kwargs)
-        b = browser(download_url, proxy=proxy, executablePath=self.executablePath)
+        did = kwargs.get('custom_did', None)
+        b = browser(download_url, proxy=proxy, custom_did=did, executablePath=self.executablePath)
         return self.getBytes(b, proxy=proxy)
 
     def get_Video_By_Url(
@@ -1242,7 +1245,7 @@ class TikTokApi:
             offset,
         ) = self.__process_kwargs__(kwargs)
         did = str(random.randint(10000, 999999999))
-        
+
         tiktok_schema = self.getTikTokByUrl(video_url, custom_did=did)
         download_url = tiktok_schema['itemInfo']['itemStruct']['video']['downloadAddr']
 
